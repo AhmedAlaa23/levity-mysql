@@ -1,2 +1,2 @@
-# levity-sql
+# levity-MySQL
 Node SQL Operations
