@@ -1,0 +1,21 @@
+{
+  "name": "levity-sql",
+  "version": "0.1.0",
+  "description": "SQL Operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmedAlaa23/levity-sql.git"
+  },
+  "author": "Ahmed Alaa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AhmedAlaa23/levity-sql/issues"
+  },
+  "homepage": "https://github.com/AhmedAlaa23/levity-sql#readme",
+  "keywords": ["sql","mysql","database"],
+  "type": "module"
+}
