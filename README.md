@@ -7,7 +7,7 @@ Node SQL Operations
 $ npm install levity-mysql
 ```
 
-```
+```javascript
 import mysql from 'mysql';
 import {setDB, dbOp} from 'levity-validator';
 
@@ -54,7 +54,7 @@ tableName (string): table name to insert<br>
 data (object): data to insert. example: {first_name: 'David', last_name: 'Dobrik'}
 
 **example**
-```
+```javascript
 dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik'});
 // adds a record to the users table with first_name='David' and last_name='Dobrik'
 ```
@@ -70,7 +70,7 @@ params (array || null): parameters to bind<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
-```
+```javascript
 dbOp.select('users', ['first_name','last_name'], "email=?", ['test@test.com'], 'LIMIT 1');
 // select the user with the email that is equal to 'test@test.com'
 ```
@@ -86,7 +86,7 @@ params (array || null): parameters to bind<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
-```
+```javascript
 dbOp.update('users', ['first_name','last_name'], "email=?", ['Felix','shellberg','test@test.com'], 'LIMIT 1');
 // update the user with the 'test@test.com' email first and last name to felix shellberg
 ```
@@ -101,7 +101,7 @@ params (array || null): parameters to bind<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
-```
+```javascript
 dbOp.update('users', "email=?", ['test@test.com'], 'LIMIT 1');
 // deletes the user with the 'test@test.com' email
 ```
@@ -120,7 +120,7 @@ where (string): where condition<br>
 params (array || null): parameters to bind<br>
 
 **example**
-```
+```javascript
 get('users', ['first_name','last_name'], "email=?", ['test@test.com']);
 // return {first_name: 'David', last_name: 'Dobrik'}
 ```
