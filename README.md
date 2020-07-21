@@ -32,8 +32,13 @@ async function addUser(){
 
 async function getUserName(){
 	// table name, fields to select, where conditions, parameters to assign
-	let user = await dbOp.get('users', ['first_name','last_name'], "email=?", ['david@dobrik.com']);
-	console.log(user);
+	let user = await dbOp.get({
+		table: 'users',
+		fields: ['first_name','last_name'],
+		where: "email=?",
+		params: ['david@dobrik.com']
+	});
+	
 	return `${user.first_name} ${user.last_name}`
 }
 
@@ -48,9 +53,9 @@ getUser();
 
 ## Low-Operations
 
-### insert(tableName='', data={})
+### insert(table='', data={})
 
-tableName (string): table name to insert<br>
+table (string): table name to insert<br>
 data (object): data to insert. example: {first_name: 'David', last_name: 'Dobrik'}
 
 **example**
@@ -61,9 +66,9 @@ dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik'});
 
 <hr>
 
-### select(tableName='', fields=[], where='', params=null, additions='')
+### select({table='', fields=[], where='', params=null, additions=''})
 
-tableName (string): table name to select from<br>
+table (string): table name to select from<br>
 fields (array): fields to select<br>
 where (string): where condition<br>
 params (array || null): parameters to bind<br>
@@ -77,9 +82,9 @@ dbOp.select('users', ['first_name','last_name'], "email=?", ['test@test.com'], '
 
 <hr>
 
-### update(tableName='', fields=[], where='', params=null, additions='')
+### update({table='', fields=[], where='', params=null, additions=''})
 
-tableName (string): table name to select from<br>
+table (string): table name to select from<br>
 fields (array): fields to update<br>
 where (string): where condition<br>
 params (array || null): parameters to bind<br>
@@ -87,22 +92,33 @@ additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
 ```javascript
-dbOp.update('users', ['first_name','last_name'], "email=?", ['Felix','shellberg','test@test.com'], 'LIMIT 1');
+dbOp.update({
+	table: 'users',
+	fields: ['first_name','last_name'],
+	where: "email=?",
+	params: ['Felix','shellberg','test@test.com'],
+	additions: 'LIMIT 1'
+});
 // update the user with the 'test@test.com' email first and last name to felix shellberg
 ```
 
 <hr>
 
-### delete(tableName='', where='', params=null, additions='')
+### delete({table='', where='', params=null, additions=''})
 
-tableName (string): table name to select from<br>
+table (string): table name to select from<br>
 where (string): where condition<br>
 params (array || null): parameters to bind<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
 ```javascript
-dbOp.update('users', "email=?", ['test@test.com'], 'LIMIT 1');
+dbOp.delete({
+	table: 'users',
+	where: "email=?",
+	params: ['test@test.com'],
+	additions: 'LIMIT 1'
+});
 // deletes the user with the 'test@test.com' email
 ```
 
@@ -110,18 +126,23 @@ dbOp.update('users', "email=?", ['test@test.com'], 'LIMIT 1');
 
 ## High-Operations
 
-### get(tableName='', fields=[], where='', params=null)
+### get({table='', fields=[], where='', params=null})
 
 **gets only one record**
 
-tableName (string): table name to select from<br>
+table (string): table name to select from<br>
 fields (array): fields to select<br>
 where (string): where condition<br>
 params (array || null): parameters to bind<br>
 
 **example**
 ```javascript
-get('users', ['first_name','last_name'], "email=?", ['test@test.com']);
+dpOp.get({
+	table: 'users',
+	fields: ['first_name','last_name'],
+	where: "email=?",
+	params: ['test@test.com']
+});
 // return {first_name: 'David', last_name: 'Dobrik'}
 ```
 

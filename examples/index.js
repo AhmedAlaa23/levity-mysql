@@ -43,16 +43,29 @@ async function addUser(){
 }
 
 async function selectUser(){
-	// table name, fields to select, where conditions, parameters to assign, additions
-	let user = await dbOp.select('users', ['first_name','last_name'], "email=?", ['test@test.com'], 'LIMIT 1');
+	let user = await dbOp.select({
+		table: 'users',
+		fields: ['first_name','last_name'],
+		where: 'email=?',
+		params: ['test@test.com'],
+		extra: 'LIMIT 1'
+	});
+	
 	console.log(user);
 }
 
 async function getUser(){
 	// table name, fields to select, where conditions, parameters to assign
-	let user = await dbOp.get('users', ['first_name','last_name'], "email=?", ['test@test.com']);
+	
+	let user = await dbOp.get({
+		table: 'users',
+		fields: ['first_name','last_name'],
+		where: "email=?",
+		params: ['test@test.com']
+	});
+	
 	console.log(user.first_name);
 }
 
-// addUser();
-// getUser();
+addUser();
+getUser();
