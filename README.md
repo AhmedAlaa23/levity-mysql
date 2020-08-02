@@ -82,10 +82,10 @@ dbOp.select('users', ['first_name','last_name'], "email=?", ['test@test.com'], '
 
 <hr>
 
-### update({table='', fields=[], where='', params=null, additions=''})
+### update({table='', fields={}, where='', params=null, additions=''})
 
 table (string): table name to select from<br>
-fields (array): fields to update<br>
+fields (object): fields to update {field_name: field_value}<br>
 where (string): where condition<br>
 params (array || null): parameters to bind<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
@@ -94,9 +94,9 @@ additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 ```javascript
 dbOp.update({
 	table: 'users',
-	fields: ['first_name','last_name'],
+	fields: {first_name:'Felix', last_name:'shellberg'},
 	where: "email=?",
-	params: ['Felix','shellberg','test@test.com'],
+	params: ['test@test.com'],
 	additions: 'LIMIT 1'
 });
 // update the user with the 'test@test.com' email first and last name to felix shellberg
