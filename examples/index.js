@@ -25,33 +25,35 @@ setDB(DB);
 // }
 
 const dbSchema = {
-	accounts: {
+	users: {
 		id: {type: 'INT(11)', isID: true},
-		name: {type: 'VARCHAR(255)'},
+		first_name: {type: 'VARCHAR(255)'},
+		last_name: {type: 'VARCHAR(255)'},
+		email: {type: 'VARCHAR(255)'},
+		money: {type: 'INT(11)'},
 	},
-	accounts_categories: {
+	users_categories: {
 		id: {type: 'int(11)', isID: true},
 		name: {type: 'VARCHAR(255)'}
-	}
+	},
 }
-
-dbOp.createTables(dbSchema);
 
 async function addUser(){
 	// table name, data to insert
 	await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com'});
 }
 
-async function selectUser(){
-	let user = await dbOp.select({
+
+async function updateUser(){
+	// table name, fields to select, where conditions, parameters to assign
+	
+	await dbOp.update({
 		table: 'users',
-		fields: ['first_name','last_name'],
-		where: 'email=?',
-		params: ['test@test.com'],
-		extra: 'LIMIT 1'
+		fields: {first_name: 'Casey', last_name: 'Neistat'},
+		where: "email=?",
+		params: ['test@test.com']
 	});
 	
-	console.log(user);
 }
 
 async function getUser(){
@@ -67,5 +69,23 @@ async function getUser(){
 	console.log(user.first_name);
 }
 
-addUser();
-getUser();
+async function selectUser(){
+	let user = await dbOp.select({
+		table: 'users',
+		fields: ['first_name','last_name'],
+		where: 'email=?',
+		params: ['test@test.com'],
+		additions: 'LIMIT 1'
+	});
+	
+	console.log(user);
+}
+
+(async()=>{
+	await dbOp.dropTables(dbSchema);
+	await dbOp.createTables(dbSchema);
+
+	await addUser();
+	await updateUser();
+	await getUser();
+})()
