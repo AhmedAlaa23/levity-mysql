@@ -70,13 +70,15 @@ dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik'});
 
 table (string): table name to select from<br>
 fields (array): fields to select<br>
-where (string): where condition<br>
-params (array || null): parameters to bind<br>
+where (string | object): where condition - [Where Examples](README.md#Where)<br>
+params (array): parameters to bind<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
 ```javascript
 dbOp.select('users', ['first_name','last_name'], "email=?", ['test@test.com'], 'LIMIT 1');
+// or with where as object
+dbOp.select('users', ['first_name','last_name'], {email: 'test@test.com'}, 'LIMIT 1');
 // select the user with the email that is equal to 'test@test.com'
 ```
 
@@ -86,8 +88,8 @@ dbOp.select('users', ['first_name','last_name'], "email=?", ['test@test.com'], '
 
 table (string): table name to select from<br>
 fields (object): fields to update {field_name: field_value}<br>
-where (string): where condition<br>
-params (array || null): parameters to bind<br>
+where (string || object): where condition - [Where Examples](README.md#Where)<br>
+params (array): parameters to bind<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
@@ -95,8 +97,7 @@ additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 dbOp.update({
 	table: 'users',
 	fields: {first_name:'Felix', last_name:'shellberg'},
-	where: "email=?",
-	params: ['test@test.com'],
+	where: {email: 'test@test.com'},
 	additions: 'LIMIT 1'
 });
 // update the user with the 'test@test.com' email first and last name to felix shellberg
@@ -107,15 +108,15 @@ dbOp.update({
 ### delete({table='', where='', params=null, additions=''})
 
 table (string): table name to select from<br>
-where (string): where condition<br>
-params (array || null): parameters to bind<br>
+where (string || object): where condition - [Where Examples](README.md#Where)<br>
+params (array): parameters to bind<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
 ```javascript
 dbOp.delete({
 	table: 'users',
-	where: "email=?",
+	where: {email=?},
 	params: ['test@test.com'],
 	additions: 'LIMIT 1'
 });
@@ -132,18 +133,60 @@ dbOp.delete({
 
 table (string): table name to select from<br>
 fields (array): fields to select<br>
-where (string): where condition<br>
-params (array || null): parameters to bind<br>
+where (string || object): where condition - [Where Examples](README.md#Where)<br>
+params (array): parameters to bind<br>
 
 **example**
 ```javascript
 dpOp.get({
 	table: 'users',
 	fields: ['first_name','last_name'],
-	where: "email=?",
-	params: ['test@test.com']
+	where: {email: 'test@test.com'},
 });
 // return {first_name: 'David', last_name: 'Dobrik'}
+```
+
+### Where
+
+**All of the below are examples of valid Where Conditions**
+
+```javascript
+let where = 'email=?';
+// here you need to add parameter for the ?
+// WHERE email=?
+
+let whereObj0 = {
+	id: 1
+}
+// where id=1
+
+let whereObj1 = {
+	'AND': [
+		{id: 1, email: 'test@test.com'}
+	]
+}
+// WHERE id=1 AND email='test@test.com'
+
+let whereObj2 = {
+	'AND': [
+		{id: 1},
+		{'OR': [ {first_name: ['Casey','Felix']} ]}
+	]
+}
+// WHERE id=1 AND (name='Casey' OR name='Felix')
+
+let whereObj3 = {
+	'OR': [
+		{id: 1},
+		{'AND': [
+				{email: 'test@test.com'},
+				{'OR': [{first_name: 'Casey', last_name: 'Neistat'}]}
+			]
+		}
+	]
+}
+// WHERE id=1 OR ( email='test@tes.com' AND ( first_name='Casey' OR last_name='Neistat' ) )
+
 ```
 
 **To Be Continued...**

@@ -47,13 +47,19 @@ async function addUser(){
 async function updateUser(){
 	// table name, fields to select, where conditions, parameters to assign
 	
+	// await dbOp.update({
+	// 	table: 'users',
+	// 	fields: {first_name: 'Casey', last_name: 'Neistat'},
+	// 	where: "email=?",
+	// 	params: ['test@test.com']
+	// });
+	
 	await dbOp.update({
 		table: 'users',
 		fields: {first_name: 'Casey', last_name: 'Neistat'},
-		where: "email=?",
-		params: ['test@test.com']
+		where: {email: 'test@test.com'},
 	});
-	
+
 }
 
 async function getUser(){
@@ -70,15 +76,67 @@ async function getUser(){
 }
 
 async function selectUser(){
+	let where0 = {
+		id: 1
+	}
+
+	let where1 = {
+		'AND': [
+			{id: 1, email: 'test@test.com'}
+		]
+	}
+
+	let where2 = {
+		'AND': [
+			{id: 1},
+			{'OR': [ {first_name: ['Casey','Felix']} ]}
+		]
+	}
+
+	let where3 = {
+		'OR': [
+			{id: 1},
+			{'AND': [
+					{email: 'test@test.com'},
+					{'OR': [{first_name: 'Casey', last_name: 'Neistat'}]}
+				]
+			}
+		]
+	}
+
+	// let user = await dbOp.select({
+	// 	table: 'users',
+	// 	fields: ['first_name','last_name'],
+	// 	where: 'email=?',
+	// 	params: ['test@test.com'],
+	// 	additions: 'LIMIT 1'
+	// });
+	
 	let user = await dbOp.select({
 		table: 'users',
 		fields: ['first_name','last_name'],
-		where: 'email=?',
-		params: ['test@test.com'],
+		where: where2,
 		additions: 'LIMIT 1'
 	});
-	
+
 	console.log(user);
+}
+
+const deleteUser = async()=>{
+
+	// await dbOp.delete({
+	// 	table: 'users',
+	// 	where: 'email=?',
+	// 	params: ['test@test.com'],
+	// 	additions: 'LIMIT 1'
+	// })
+
+	await dbOp.delete({
+		table: 'users',
+		where: {email: 'test@test.com'},
+		additions: 'LIMIT 1'
+	})
+
 }
 
 (async()=>{
@@ -88,4 +146,6 @@ async function selectUser(){
 	await addUser();
 	await updateUser();
 	await getUser();
+	// await deleteUser();
+	// await selectUser();
 })()
