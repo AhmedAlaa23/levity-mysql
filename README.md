@@ -66,7 +66,7 @@ dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik'});
 
 <hr>
 
-### select({table='', fields=[], where='', params=null, additions=''})
+### select({table='', fields=[], where='', params=[], additions=''})
 
 table (string): table name to select from<br>
 fields (array): fields to select<br>
@@ -84,7 +84,7 @@ dbOp.select('users', ['first_name','last_name'], {email: 'test@test.com'}, 'LIMI
 
 <hr>
 
-### update({table='', fields={}, where='', params=null, additions=''})
+### update({table='', fields={}, where='', params=[], additions=''})
 
 table (string): table name to select from<br>
 fields (object): fields to update {field_name: field_value}<br>
@@ -105,7 +105,7 @@ dbOp.update({
 
 <hr>
 
-### delete({table='', where='', params=null, additions=''})
+### delete({table='', where='', params=[], additions=''})
 
 table (string): table name to select from<br>
 where (string || object): where condition - [Where Examples](README.md#Where)<br>
@@ -127,7 +127,7 @@ dbOp.delete({
 
 ## High-Operations
 
-### get({table='', fields=[], where='', params=null})
+### get({table='', fields=[], where='', params=[]})
 
 **gets only one record**
 
