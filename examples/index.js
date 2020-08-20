@@ -31,6 +31,7 @@ const dbSchema = {
 		last_name: {type: 'VARCHAR(255)'},
 		email: {type: 'VARCHAR(255)'},
 		money: {type: 'INT(11)'},
+		extra: {type: 'INT(11)', dbIgnore: true},
 	},
 	users_categories: {
 		id: {type: 'int(11)', isID: true},
