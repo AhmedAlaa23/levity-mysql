@@ -146,6 +146,24 @@ dpOp.get({
 // return {first_name: 'David', last_name: 'Dobrik'}
 ```
 
+### doesExist({table='', where=''})
+
+**gets only one record**
+
+table (string): table name to select from<br>
+where (string || object): where condition - [Where Examples](README.md#Where)<br>
+
+returns: boolean
+
+**example**
+```javascript
+doesExist({
+	table: 'users',
+	where: {email: 'test@test.com'}
+})
+// return true
+```
+
 ### Where
 
 **All of the below are examples of valid Where Conditions**

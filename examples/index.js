@@ -123,6 +123,15 @@ async function selectUser(){
 	console.log(user);
 }
 
+const doesUserExist = async()=>{
+	let status = await dbOp.doesExist({
+		table: 'users',
+		where: {email: 'test@test.com'}
+	})
+
+	return status;
+}
+
 const deleteUser = async()=>{
 
 	// await dbOp.delete({
@@ -147,6 +156,8 @@ const deleteUser = async()=>{
 	await addUser();
 	await updateUser();
 	await getUser();
+	let doesExist = await doesUserExist();
+	console.log(`Does user Exist: ${doesExist}`);
 	// await deleteUser();
 	// await selectUser();
 })()
