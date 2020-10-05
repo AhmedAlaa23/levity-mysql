@@ -127,14 +127,15 @@ dbOp.delete({
 
 ## High-Operations
 
-### get({table='', fields=[], where='', params=[]})
+### get({table='', fields=[], where='', params=[], additions""})
 
-**gets only one record**
+**gets only one record, adds 'LIMIT 1' to the end of the query**
 
 table (string): table name to select from<br>
 fields (array): fields to select<br>
 where (string || object): where condition - [Where Examples](README.md#Where)<br>
 params (array): parameters to bind<br>
+additions (string): additional conditions. example: ORDER BY (note: get already adds LIMIT 1 to the end of the query)<br>
 
 **example**
 ```javascript
