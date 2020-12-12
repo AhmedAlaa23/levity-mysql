@@ -6,10 +6,10 @@ let DB = mysql.createPool({
 	connectionLimit : 50,
 	host			: 'localhost',
 	user			: 'root',
-	password	: '',
+	password	: 'root',
 	database	: 'test',
 	timezone	: 'UTC',
-	charset		: 'UTF8_GENERAL_CI',
+	charset		: 'utf8mb4',
 	multipleStatements: true
 });
 
@@ -150,6 +150,7 @@ const deleteUser = async()=>{
 }
 
 (async()=>{
+	await dbOp.disableStrictMode();
 	await dbOp.dropTables(dbSchema);
 	await dbOp.createTables(dbSchema);
 
