@@ -9,21 +9,19 @@ $ npm install levity-mysql
 
 ```javascript
 import mysql from 'mysql';
-import {setDB, dbOp} from 'levity-validator';
+import {createDBPool, DBEnd, dbOp} from 'levity-validator';
 
 // creating MySql Pool
-let DB = mysql.createPool({
+createDBPool({
 	connectionLimit : 50,
-	host     : 'localhost',
-	user     : 'root',
-	password : '',
-	database : 'test',
-	timezone: 'UTC',
+	host			: 'localhost',
+	user			: 'root',
+	password	: 'root',
+	database	: 'test',
+	charset		: 'utf8mb4_unicode_ci',
+	timezone	: 'UTC',
 	multipleStatements: true
-});
-
-// setting the database
-setDB(DB);
+})
 
 async function addUser(){
 	// table name, data to insert
@@ -42,8 +40,11 @@ async function getUserName(){
 	return `${user.first_name} ${user.last_name}`
 }
 
-addUser();
-getUser();
+await addUser();
+await getUser();
+
+// end database Connection
+await DBEnd();
 ```
 
 ## Documentation

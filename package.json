@@ -1,6 +1,6 @@
 {
   "name": "levity-mysql",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "description": "MySQL Operations",
   "main": "lib/index.js",
   "scripts": {
@@ -16,6 +16,13 @@
     "url": "https://github.com/AhmedAlaa23/levity-mysql/issues"
   },
   "homepage": "https://github.com/AhmedAlaa23/levity-mysql#readme",
-  "keywords": ["sql","mysql","database"],
-  "type": "module"
+  "keywords": [
+    "sql",
+    "mysql",
+    "database"
+  ],
+  "type": "module",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
 }

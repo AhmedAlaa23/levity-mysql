@@ -1,19 +1,16 @@
-import mysql from 'mysql';
-import {setDB, dbOp} from '../lib/index.js'
+// import mysql from 'mysql';
+import {createDBPool, DBEnd, dbOp} from '../lib/index.js'
 
-// creating MySql Pool
-let DB = mysql.createPool({
+createDBPool({
 	connectionLimit : 50,
 	host			: 'localhost',
 	user			: 'root',
 	password	: 'root',
 	database	: 'test',
+	charset		: 'utf8mb4_unicode_ci',
 	timezone	: 'UTC',
-	charset		: 'utf8mb4',
 	multipleStatements: true
-});
-
-setDB(DB);
+})
 
 // accounts: {
 // 	id: {type: 'INT(11)', autoIncrement: true, primaryKey: true, unique: true, allowNull: false},
@@ -31,6 +28,7 @@ const dbSchema = {
 		last_name: {type: 'VARCHAR(255)'},
 		email: {type: 'VARCHAR(255)'},
 		money: {type: 'INT(11)'},
+		details: {type: 'JSON', default: "[]"},
 		extra: {type: 'INT(11)', dbIgnore: true},
 	},
 	users_categories: {
@@ -41,7 +39,7 @@ const dbSchema = {
 
 async function addUser(){
 	// table name, data to insert
-	await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com'});
+	await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com', details: JSON.stringify({city: 'NY', country: 'USA'})});
 }
 
 
@@ -68,12 +66,13 @@ async function getUser(){
 	
 	let user = await dbOp.get({
 		table: 'users',
-		fields: ['first_name','last_name'],
+		fields: ['first_name','last_name','details'],
 		where: "email=?",
 		params: ['test@test.com']
 	});
 	
 	console.log(user.first_name);
+	console.log(user.details.country);
 }
 
 async function selectUser(){
@@ -150,7 +149,7 @@ const deleteUser = async()=>{
 }
 
 (async()=>{
-	await dbOp.disableStrictMode();
+	// await dbOp.disableStrictMode();
 	await dbOp.dropTables(dbSchema);
 	await dbOp.createTables(dbSchema);
 
@@ -161,4 +160,5 @@ const deleteUser = async()=>{
 	console.log(`Does user Exist: ${doesExist}`);
 	// await deleteUser();
 	// await selectUser();
+	await DBEnd();
 })()
