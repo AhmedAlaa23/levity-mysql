@@ -27,8 +27,8 @@ const dbSchema = {
 		first_name: {type: 'VARCHAR(255)'},
 		last_name: {type: 'VARCHAR(255)'},
 		email: {type: 'VARCHAR(255)'},
-		money: {type: 'INT(11)'},
-		details: {type: 'JSON', default: "[]"},
+		money: {type: 'INT(11)', default: 0},
+		details: {type: 'JSON', default: '[]'},
 		extra: {type: 'INT(11)', dbIgnore: true},
 	},
 	users_categories: {
