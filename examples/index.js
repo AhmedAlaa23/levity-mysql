@@ -12,15 +12,6 @@ createDBPool({
 	multipleStatements: true
 })
 
-// accounts: {
-// 	id: {type: 'INT(11)', autoIncrement: true, primaryKey: true, unique: true, allowNull: false},
-// 	name: {type: 'VARCHAR(255)', allowNull: false},
-// },
-// accounts_categories: {
-// 	id: {type: 'int(11)', isID: true},
-// 	name: {type: 'VARCHAR(255)'}
-// }
-
 const dbSchema = {
 	users: {
 		id: {type: 'INT(11)', isID: true},
@@ -35,7 +26,13 @@ const dbSchema = {
 		id: {type: 'int(11)', isID: true},
 		name: {type: 'VARCHAR(255)'}
 	},
+	stats: {
+		id: {type: 'int(11)', isID: true},
+		name: {type: 'VARCHAR(255)'}
+	}
 }
+
+const tablesIgnored = ['stats'];
 
 async function addUser(){
 	// table name, data to insert
@@ -151,7 +148,7 @@ const deleteUser = async()=>{
 (async()=>{
 	// await dbOp.disableStrictMode();
 	await dbOp.dropTables(dbSchema);
-	await dbOp.createTables(dbSchema);
+	await dbOp.createTables(dbSchema, tablesIgnored);
 
 	await addUser();
 	await updateUser();

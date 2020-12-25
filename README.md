@@ -11,7 +11,7 @@ $ npm install levity-mysql
 import mysql from 'mysql';
 import {createDBPool, DBEnd, dbOp} from 'levity-validator';
 
-// creating MySql Pool
+// creating MySql Database Pool
 createDBPool({
 	connectionLimit : 50,
 	host			: 'localhost',
@@ -164,6 +164,56 @@ doesExist({
 	where: {email: 'test@test.com'}
 })
 // return true
+```
+### createTables(dbSchema={}, tablesIgnored)
+
+**Creates Tables in the database based on a schema**
+
+dbSchema (Object): The Database Schema<br>
+tablesIgnored (Array): Array of tables names to ignore and will not be added<br>
+
+dbSchema Properties:<br>
+{columnName: {type, default, isID, autoIncrement, primaryKey, allowNull, dbIgnore}}<br>
+
+columnName: any valid sql column name<br>
+
+type (string): any valid sql data type, ('INT(11)', 'VARCHAR(255)', 'DOUBLE(12,2)', 'JSON', etc..)<br>
+
+isID (boolean): if true then the column is 'AUTO_INCREMENT PRIMARY KEY NOT NULL', default: false<br>
+
+autoIncrement (boolean): if true then the column is AUTO_INCREMENT, default: false<br>
+
+primaryKey (boolean): if true then the column is primaryKey, default: false<br>
+
+allowNull (boolean): if true then null is now allowed in this column, default: true<br>
+
+dbIgnore (boolean): if true then the column will be ignored and not added to the table, default: false<br>
+
+**example**
+```javascript
+const dbSchema = {
+	users: {
+		id: {type: 'INT(11)', isID: true},
+		first_name: {type: 'VARCHAR(255)'},
+		last_name: {type: 'VARCHAR(255)'},
+		email: {type: 'VARCHAR(255)'},
+		money: {type: 'INT(11)', default: 0},
+		details: {type: 'JSON', default: '[]'},
+		extra: {type: 'INT(11)', dbIgnore: true},
+	},
+	users_categories: {
+		id: {type: 'int(11)', isID: true},
+		name: {type: 'VARCHAR(255)'}
+	},
+	stats: {
+		id: {type: 'int(11)', isID: true},
+		name: {type: 'VARCHAR(255)'}
+	}
+}
+
+const tablesIgnored = ['stats'];
+
+await createTables(dbSchema, tablesIgnored);
 ```
 
 ### Where
