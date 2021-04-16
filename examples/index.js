@@ -8,7 +8,7 @@ createDBPool({
 	password	: 'root',
 	database	: 'test',
 	charset		: 'utf8mb4_unicode_ci',
-	timezone	: 'UTC',
+	timezone	: '+00:00',
 	multipleStatements: true
 })
 
