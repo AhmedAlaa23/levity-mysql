@@ -35,10 +35,9 @@ const dbSchema = {
 const tablesIgnored = ['stats'];
 
 async function addUser(){
-	// table name, data to insert
 	await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com', details: JSON.stringify({city: 'NY', country: 'USA'})});
+	await dbOp.insert('users', {first_name: 'Felix', last_name: 'shellberg', email: 'felix@test.com', details: JSON.stringify({city: 'London', country: 'UK'})});
 }
-
 
 async function updateUser(){
 	// table name, fields to select, where conditions, parameters to assign
@@ -101,6 +100,10 @@ async function selectUser(){
 		]
 	}
 
+	let where4 = {
+		'OR': [{first_name: ['Casey','Felix']}]
+	}
+
 	// let user = await dbOp.select({
 	// 	table: 'users',
 	// 	fields: ['first_name','last_name'],
@@ -112,7 +115,8 @@ async function selectUser(){
 	let user = await dbOp.select({
 		table: 'users',
 		fields: ['first_name','last_name'],
-		where: where2,
+		where: where4,
+		orderby: {id:'DESC'},
 		additions: 'LIMIT 1'
 	});
 
@@ -165,6 +169,6 @@ const deleteUser = async()=>{
 	let doesExist = await doesUserExist();
 	console.log(`Does user Exist: ${doesExist}`);
 	// await deleteUser();
-	// await selectUser();
+	await selectUser();
 	await DBEnd();
 })()

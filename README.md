@@ -73,6 +73,7 @@ table (string): table name to select from<br>
 fields (array): fields to select<br>
 where (string | object): where condition - [Where Examples](README.md#Where)<br>
 params (array): parameters to bind<br>
+orderby (Object): ORDER BY, example: {name:'DESC', age:'ASC'}<br>
 additions (string): additional conditions. example: ORDER BY, LIMIT<br>
 
 **example**
