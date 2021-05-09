@@ -35,8 +35,9 @@ const dbSchema = {
 const tablesIgnored = ['stats'];
 
 async function addUser(){
-	await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com', details: JSON.stringify({city: 'NY', country: 'USA'})});
-	await dbOp.insert('users', {first_name: 'Felix', last_name: 'shellberg', email: 'felix@test.com', details: JSON.stringify({city: 'London', country: 'UK'})});
+	const insertedId1 = await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com', details: JSON.stringify({city: 'NY', country: 'USA'})});
+	const insertedId2 = await dbOp.insert('users', {first_name: 'Felix', last_name: 'shellberg', email: 'felix@test.com', details: JSON.stringify({city: 'London', country: 'UK'})});
+	console.log(`InsertedId1: ${insertedId1}`, `InsertedId2: ${insertedId2}`);
 }
 
 async function updateUser(){
@@ -114,7 +115,7 @@ async function selectUser(){
 	
 	let user = await dbOp.select({
 		table: 'users',
-		fields: ['first_name','last_name'],
+		fields: ['id','first_name','last_name'],
 		where: where4,
 		orderby: {id:'DESC'},
 		additions: 'LIMIT 1'
