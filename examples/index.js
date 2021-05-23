@@ -1,5 +1,5 @@
 // import mysql from 'mysql';
-import {createDatabase, createDBPool, DBEnd, dbOp} from '../lib/index.js'
+import {dropDatabase, createDatabase, createDBPool, DBEnd, dbOp} from '../lib/index.js'
 
 createDBPool({
 	connectionLimit : 50,
@@ -152,6 +152,15 @@ const deleteUser = async()=>{
 
 (async()=>{
 	// await dbOp.disableStrictMode();
+	await dropDatabase({
+		connectionData: {
+			host			: 'localhost',
+			user			: 'root',
+			password	: 'root'
+		},
+		databaseName: 'test'
+	});
+	
 	await createDatabase({
 		connectionData: {
 			host			: 'localhost',
