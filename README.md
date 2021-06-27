@@ -219,45 +219,124 @@ await createTables(dbSchema, tablesIgnored);
 
 ### Where
 
+**1- Where can be String ('email=? AND first_name=?') and the query values sent separately in the params array**
+
+<br>
+
+**2- Where can be Object with just key value ({email: 'test@test.com'}), don't worry the query values are escaped**
+
+**The value can be String or Object**
+**If the value is an Object, then it should have "op" and "value" properties**
+**op can be one of ('<','>','<=','>=','!=','IN')**
+**If the 'op' is 'IN' then the value must be an Array**
+
+```javascript
+{balance: {op:'<', value: 1500} }
+// balance < 1500
+{balance: {op:'>', value: 1500} }
+// balance > 1500
+{balance: {op:'<=', value: 1500} }
+// balance <= 1500
+{balance: {op:'>=', value: 1500} }
+// balance >= 1500
+{balance: {op:'!=', value: 1500} }
+// balance != 1500
+{balance: {op:'IN', value: [1500,2000]} }
+// balance IN (1500,2000)
+```
+
+<br>
+
+**3- Where can be Object with complex structure**
+**Every "AND" or "OR" Must have and Array value**
+**In this array you can have one or multiple objects**
+**Every Object can have another ("AND" or "OR") or just a key value object** 
+
+```Javascript
+{
+	'OR': [
+		{id: 1},
+		{'AND': [
+				{email: 'test@test.com'},
+				{money: {op:'<=', value'test@test.com'}},
+				{'OR': [{first_name: 'Casey', last_name: 'Neistat'}]}
+			]
+		}
+	]
+}
+```
+**don't worry the query values are escaped**
+
+<br>
+
 **All of the below are examples of valid Where Conditions**
 
 ```javascript
-let where = 'email=?';
-// here you need to add parameter for the ?
-// WHERE email=?
-
-let whereObj0 = {
+const where0 = {
 	id: 1
 }
 // where id=1
 
-let whereObj1 = {
+
+const where1 = {
 	'AND': [
 		{id: 1, email: 'test@test.com'}
 	]
 }
 // WHERE id=1 AND email='test@test.com'
 
-let whereObj2 = {
+
+//======= deprecated
+// const where2 = {
+// 	'AND': [
+// 		{id: 1},
+// 		{'OR': [ {first_name: ['Casey','Felix']} ]}
+// 	]
+// }
+//==================
+
+const where2 = {
 	'AND': [
 		{id: 1},
-		{'OR': [ {first_name: ['Casey','Felix']} ]}
+		{first_name: {op:'IN', value:['Casey','Felix']} }
 	]
 }
-// WHERE id=1 AND (name='Casey' OR name='Felix')
+// where: id=1 AND first_name IN ('Casey','Felix')
 
-let whereObj3 = {
+const where3 = {
 	'OR': [
 		{id: 1},
 		{'AND': [
 				{email: 'test@test.com'},
+				{money: {op:'<', value:2000} },
 				{'OR': [{first_name: 'Casey', last_name: 'Neistat'}]}
 			]
 		}
 	]
 }
-// WHERE id=1 OR ( email='test@tes.com' AND ( first_name='Casey' OR last_name='Neistat' ) )
+// WHERE id=1 OR ( email='test@tes.com' AND money<2000 AND ( first_name='Casey' OR last_name='Neistat' ) )
 
+
+// ============ deprecated
+// const where4 = {
+// 	'OR': [{first_name: ['Casey','Felix']}]
+// }
+// ==============
+
+const where4 = {
+	first_name: {op:'IN', value:['Casey','Felix']}
+}
+// where: first_name IN ('Casey','Felix')
+
+const where5 = {
+	money: {op:'<', value: 1500}
+	// money: {op:'>', value: 1500}
+	// money: {op:'<=', value: 2000}
+	// money: {op:'>=', value: 1500}
+	// money: {op:'!=', value: 2000}
+	// money: {op:'IN', value: [1000,2000]}
+}
+// where: money < 1500
 ```
 
 **To Be Continued...**

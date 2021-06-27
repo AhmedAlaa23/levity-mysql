@@ -35,8 +35,8 @@ const dbSchema = {
 const tablesIgnored = ['stats'];
 
 async function addUser(){
-	const insertedId1 = await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com', details: JSON.stringify({city: 'NY', country: 'USA'})});
-	const insertedId2 = await dbOp.insert('users', {first_name: 'Felix', last_name: 'shellberg', email: 'felix@test.com', details: JSON.stringify({city: 'London', country: 'UK'})});
+	const insertedId1 = await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com', money: 1000, details: JSON.stringify({city: 'NY', country: 'USA'})});
+	const insertedId2 = await dbOp.insert('users', {first_name: 'Felix', last_name: 'shellberg', email: 'felix@test.com', money: 2000, details: JSON.stringify({city: 'London', country: 'UK'})});
 	console.log(`InsertedId1: ${insertedId1}`, `InsertedId2: ${insertedId2}`);
 }
 
@@ -73,37 +73,71 @@ async function getUser(){
 }
 
 async function selectUser(){
-	let where0 = {
+	const where0 = {
 		id: 1
 	}
+	// where id=1
 
-	let where1 = {
+
+	const where1 = {
 		'AND': [
 			{id: 1, email: 'test@test.com'}
 		]
 	}
+	// WHERE id=1 AND email='test@test.com'
 
-	let where2 = {
+
+	//======= deprecated
+	// const where2 = {
+	// 	'AND': [
+	// 		{id: 1},
+	// 		{'OR': [ {first_name: ['Casey','Felix']} ]}
+	// 	]
+	// }
+	//==================
+
+	const where2 = {
 		'AND': [
 			{id: 1},
-			{'OR': [ {first_name: ['Casey','Felix']} ]}
+			{first_name: {op:'IN', value:['Casey','Felix']} }
 		]
 	}
+	// where: id=1 AND first_name IN ('Casey','Felix')
 
-	let where3 = {
+	const where3 = {
 		'OR': [
 			{id: 1},
 			{'AND': [
 					{email: 'test@test.com'},
+					{money: {op:'<', value:2000} },
 					{'OR': [{first_name: 'Casey', last_name: 'Neistat'}]}
 				]
 			}
 		]
 	}
+	// WHERE id=1 OR ( email='test@tes.com' AND money<2000 AND ( first_name='Casey' OR last_name='Neistat' ) )
 
-	let where4 = {
-		'OR': [{first_name: ['Casey','Felix']}]
+
+	// ============ deprecated
+	// const where4 = {
+	// 	'OR': [{first_name: ['Casey','Felix']}]
+	// }
+	// ==============
+
+	const where4 = {
+		first_name: {op:'IN', value:['Casey','Felix']}
 	}
+	// where: first_name IN ('Casey','Felix')
+
+	const where5 = {
+		money: {op:'<', value: 1500}
+		// money: {op:'>', value: 1500}
+		// money: {op:'<=', value: 2000}
+		// money: {op:'>=', value: 1500}
+		// money: {op:'!=', value: 2000}
+		// money: {op:'IN', value: [1000,2000]}
+	}
+	// where: money < 1500
 
 	// let user = await dbOp.select({
 	// 	table: 'users',
@@ -115,10 +149,11 @@ async function selectUser(){
 	
 	let user = await dbOp.select({
 		table: 'users',
-		fields: ['id','first_name','last_name'],
-		where: where4,
+		// fields: ['*'],
+		fields: ['id','first_name','last_name','money'],
+		where: where3,
 		orderby: {id:'DESC'},
-		additions: 'LIMIT 1'
+		// additions: 'LIMIT 1'
 	});
 
 	console.log(user);
