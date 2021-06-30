@@ -1,5 +1,5 @@
 // import mysql from 'mysql';
-import {dropDatabase, createDatabase, createDBPool, DBEnd, dbOp} from '../lib/index.js'
+import {dropDatabase, createDatabase, createDBPool, DBEnd, dbOp, enableDebugging} from '../lib/index.js'
 
 createDBPool({
 	connectionLimit : 50,
@@ -152,7 +152,7 @@ async function selectUser(){
 		// fields: ['*'],
 		fields: ['id','first_name','last_name','money'],
 		where: where3,
-		orderby: {id:'DESC'},
+		orderBy: {id:'DESC'},
 		// additions: 'LIMIT 1'
 	});
 
@@ -187,6 +187,9 @@ const deleteUser = async()=>{
 
 (async()=>{
 	// await dbOp.disableStrictMode();
+	
+	enableDebugging({showConnectionId: true, showSqlQuery: false});
+	
 	await dropDatabase({
 		connectionData: {
 			host			: 'localhost',
