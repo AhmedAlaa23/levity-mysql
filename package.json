@@ -1,6 +1,6 @@
 {
   "name": "levity-mysql",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "description": "MySQL Operations",
   "main": "lib/index.js",
   "scripts": {
@@ -23,6 +23,6 @@
   ],
   "type": "module",
   "dependencies": {
-    "mysql2": "^2.2.5"
+    "mysql2": "^2.3.0"
   }
 }

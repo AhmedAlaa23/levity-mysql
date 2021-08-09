@@ -83,16 +83,16 @@ async function getUser(){
 	console.log('get_user_country', user.details.country);
 
 	//* get the same user but from the second pool
-	// let user2 = await dbOp.get({
-	// 	table: 'users',
-	// 	fields: ['first_name','last_name','details'],
-	// 	where: "email=?",
-	// 	params: ['test@test.com'],
-	// 	poolName: 'secondPool'
-	// });
+	let user2 = await dbOp.get({
+		table: 'users',
+		fields: ['first_name','last_name','details'],
+		where: "email=?",
+		params: ['test@test.com'],
+		poolName: 'secondPool'
+	});
 	
-	// console.log('get_user_name2', user2.first_name);
-	// console.log('get_user_country2', user2.details.country);
+	console.log('get_user_name2', user2.first_name);
+	console.log('get_user_country2', user2.details.country);
 }
 
 async function selectUser(){
