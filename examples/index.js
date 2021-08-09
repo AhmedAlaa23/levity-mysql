@@ -12,6 +12,17 @@ createDBPool({
 	multipleStatements: true
 })
 
+createDBPool({
+	connectionLimit : 50,
+	host			: 'localhost',
+	user			: 'root',
+	password	: 'root',
+	database	: 'test',
+	charset		: 'utf8mb4_unicode_ci',
+	timezone	: '+00:00',
+	multipleStatements: true
+}, 'secondPool')
+
 const dbSchema = {
 	users: {
 		id: {type: 'INT(11)', isID: true},
@@ -68,8 +79,20 @@ async function getUser(){
 		params: ['test@test.com']
 	});
 	
-	console.log(user.first_name);
-	console.log(user.details.country);
+	console.log('get_user_name', user.first_name);
+	console.log('get_user_country', user.details.country);
+
+	//* get the same user but from the second pool
+	// let user2 = await dbOp.get({
+	// 	table: 'users',
+	// 	fields: ['first_name','last_name','details'],
+	// 	where: "email=?",
+	// 	params: ['test@test.com'],
+	// 	poolName: 'secondPool'
+	// });
+	
+	// console.log('get_user_name2', user2.first_name);
+	// console.log('get_user_country2', user2.details.country);
 }
 
 async function selectUser(){

@@ -49,12 +49,42 @@ await DBEnd();
 
 ## Documentation
 
+### createDBPool(options={}, poolName='default')
+
+options (Object) [required]: for all options see [https://github.com/mysqljs/mysql#connection-options](https://github.com/mysqljs/mysql#connection-options).<br>
+
+poolName (String) [optional]: pool name. default: 'default'
+
+**example**
+```javascript
+createDBPool({
+	connectionLimit : 50,
+	host			: 'localhost',
+	user			: 'root',
+	password	: 'root',
+	database	: 'test',
+	charset		: 'utf8mb4_unicode_ci',
+	timezone	: 'UTC',
+	multipleStatements: true
+})
+```
+
+<hr>
+
+## Operations
+
+**Every Operation function has two optional parameters**
+```
+database (String) [optional]: the database name if not specified in the connection options
+poolName (String) [optional]: the pool name only if there are multiple pools
+```
+
 - [Low Operations](README.md#Low-Operations)
 - [High Operations](README.md#High-operations)
 
 ## Low-Operations
 
-### insert(table='', data={})
+### insert(table='', data={}, database, poolName)
 
 table (string): table name to insert<br>
 data (object): data to insert. example: {first_name: 'David', last_name: 'Dobrik'}
@@ -67,7 +97,7 @@ dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik'});
 
 <hr>
 
-### select({table='', fields=[], where='', params=[], additions=''})
+### select({table='', fields=[], where='', params=[], additions='', database, poolName})
 
 table (string): table name to select from<br>
 fields (array): fields to select<br>
@@ -86,7 +116,7 @@ dbOp.select('users', ['first_name','last_name'], {email: 'test@test.com'}, 'LIMI
 
 <hr>
 
-### update({table='', fields={}, where='', params=[], additions=''})
+### update({table='', fields={}, where='', params=[], additions='', database, poolName})
 
 table (string): table name to select from<br>
 fields (object): fields to update {field_name: field_value}<br>
@@ -107,7 +137,7 @@ dbOp.update({
 
 <hr>
 
-### delete({table='', where='', params=[], additions=''})
+### delete({table='', where='', params=[], additions='', database, poolName})
 
 table (string): table name to select from<br>
 where (string || object): where condition - [Where Examples](README.md#Where)<br>
@@ -129,7 +159,7 @@ dbOp.delete({
 
 ## High-Operations
 
-### get({table='', fields=[], where='', params=[], additions""})
+### get({table='', fields=[], where='', params=[], additions"", database, poolName})
 
 **gets only one record, adds 'LIMIT 1' to the end of the query**
 
@@ -149,7 +179,7 @@ dpOp.get({
 // return {first_name: 'David', last_name: 'Dobrik'}
 ```
 
-### doesExist({table='', where=''})
+### doesExist({table='', where='', database, poolName})
 
 **gets only one record**
 
@@ -166,7 +196,7 @@ doesExist({
 })
 // return true
 ```
-### createTables(dbSchema={}, tablesIgnored)
+### createTables(dbSchema={}, tablesIgnored, database, poolName)
 
 **Creates Tables in the database based on a schema**
 
