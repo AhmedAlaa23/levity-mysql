@@ -84,15 +84,19 @@ poolName (String) [optional]: the pool name only if there are multiple pools
 
 ## Low-Operations
 
-### insert(table='', data={}, database, poolName)
+### insert({table='', fields=[], data={}, database, poolName})
 
-table (string): table name to insert<br>
-data (object): data to insert. example: {first_name: 'David', last_name: 'Dobrik'}
+table (String): table name to insert<br>
+fields (Array) Optional: fields/columns names. example: ['first_name','email']
+data (Object || Array): data to insert, when fields is ignored the data is an object or array to add multiple rows but fields are required. examples: {first_name: 'David', last_name: 'Dobrik'}, [['David','Dobrik'], ['Felix','shellberg']]
 
 **example**
 ```javascript
-dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik'});
+dbOp.insert({table:'users', data: {first_name: 'David', last_name: 'Dobrik'}});
 // adds a record to the users table with first_name='David' and last_name='Dobrik'
+
+dbOp.insert({table:'users', fields: ['first_name','last_name'], data: [['David','Dobrik'], ['Felix','shellberg']]});
+// adds two records to the users table
 ```
 
 <hr>

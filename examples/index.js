@@ -46,9 +46,9 @@ const dbSchema = {
 const tablesIgnored = ['stats'];
 
 async function addUser(){
-	const insertedId1 = await dbOp.insert('users', {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com', money: 1000, details: JSON.stringify({city: 'NY', country: 'USA'})});
-	const insertedId2 = await dbOp.insert('users', {first_name: 'Felix', last_name: 'shellberg', email: 'felix@test.com', money: 2000, details: JSON.stringify({city: 'London', country: 'UK'})});
-	console.log(`InsertedId1: ${insertedId1}`, `InsertedId2: ${insertedId2}`);
+	const insertedId1 = await dbOp.insert({table: 'users', data: {first_name: 'David', last_name: 'Dobrik', email: 'test@test.com', money: 1000, details: JSON.stringify({city: 'LA', country: 'USA'})} });
+	const lastInsertedId = await dbOp.insert({table: 'users', fields: ['first_name','last_name','email','money','details'], data: [['Casey','Neistat','casey@test.com',1500,JSON.stringify({city: 'NY', country: 'USA'})], ['Felix','shellberg','felix@test.com',2000,JSON.stringify({city: 'London', country: 'UK'})]] });
+	console.log(`InsertedId1: ${insertedId1}`, `InsertedId2: ${lastInsertedId}`);
 }
 
 async function updateUser(){
@@ -63,7 +63,7 @@ async function updateUser(){
 	
 	await dbOp.update({
 		table: 'users',
-		fields: {first_name: 'Casey', last_name: 'Neistat'},
+		fields: {first_name: 'Micheal', last_name: 'Vsauce'},
 		where: {email: 'test@test.com'},
 	});
 
