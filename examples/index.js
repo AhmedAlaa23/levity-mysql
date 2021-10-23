@@ -162,6 +162,16 @@ async function selectUser(){
 	}
 	// where: money < 1500
 
+	const where6 = {
+		first_name: {op:'LIKE', value:'%Fel%'}
+	}
+	// where: first_name LIKE %Fel%
+
+	const where7 = {
+		money: {op:'BETWEEN', value: [1000,1500]}
+	}
+	// where: money BETWEEN 1000 AND 1500
+
 	// let user = await dbOp.select({
 	// 	table: 'users',
 	// 	fields: ['first_name','last_name'],
@@ -174,12 +184,12 @@ async function selectUser(){
 		table: 'users',
 		// fields: ['*'],
 		fields: ['id','first_name','last_name','money'],
-		where: where3,
+		where: where7,
 		orderBy: {id:'DESC'},
 		// additions: 'LIMIT 1'
 	});
 
-	console.log(user);
+	console.log('Select', user);
 }
 
 const doesUserExist = async()=>{

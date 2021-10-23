@@ -277,6 +277,10 @@ await createTables(dbSchema, tablesIgnored);
 // balance != 1500
 {balance: {op:'IN', value: [1500,2000]} }
 // balance IN (1500,2000)
+{balance: {op:'BETWEEN', value: [1000,1500]} }
+// balance BETWEEN 1000 AND 1500
+{first_name: {op:'LIKE', value: '%Cas%'} }
+// first_name LIKE '%Cas%'
 ```
 
 <br>
@@ -369,8 +373,19 @@ const where5 = {
 	// money: {op:'>=', value: 1500}
 	// money: {op:'!=', value: 2000}
 	// money: {op:'IN', value: [1000,2000]}
+	// money: {op:'BETWEEN', value: [1000,1500]}
 }
 // where: money < 1500
+
+const where6 = {
+	first_name: {op:'LIKE', value:'%Fel%'}
+}
+// where: first_name LIKE %Fel%
+
+const where7 = {
+	money: {op:'BETWEEN', value: [1000,1500]}
+}
+// where: money BETWEEN 1000 AND 1500
 ```
 
 **To Be Continued...**
